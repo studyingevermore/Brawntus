@@ -194,6 +194,10 @@ client.on("message", async message => {
             file: "https://cdn.discordapp.com/attachments/555879664724213777/555913373619847172/tenor_5.gif"
 			});
 	}
+  if (command === "+help") {
+	// let member = message.mentions.members.first();
+		message.reply(`**Current Commands:**\n\t++help - list commands.\n\t+ban - ban a user from the server (@ required), can give a reason or leave blank. **[ADMIN ONLY]**\n\t+kick - kick a user from the server (@ required), can give a reason or leave blank. **[ADMIN/MOD ONLY]**\n\t+purge - purge a certain amount of messages from the current channel (greater than 2, but less than 100). **[ADMIN/MOD ONLY]**\n\t+hug *@somebody* - have ${client.user} hug somebody.\n\t+say - have the bot say something.\n\t+funny - have ${client.user} post a funny image.\n\t+ping - get your current ping and ${client.user} 's current ping.`)
+  }
 
 });
 
