@@ -1,0 +1,2 @@
+# Brawntus
+Simple Discord Bot
