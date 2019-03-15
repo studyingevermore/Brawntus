@@ -181,10 +181,11 @@ client.on("message", async message => {
       .catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
   }
   
-  
   if (command === "funny") {
-    // Post funny images
-	  return message.channel.send({files: ["https://cdn.discordapp.com/attachments/489594861952172033/534573410303475712/tumblr_pi4rcfLQ1x1r868elo1_1280.png"]});
+    	// Post funny images
+	number = 37;
+    	imageNumber = Math.floor (Math.random() * number) + 1;
+    	message.channel.send ({files: ["./images/" + imageNumber + ".png"]});
   }
 	
   if (command === "hug") {
