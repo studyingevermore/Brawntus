@@ -14,17 +14,22 @@ var farm = Number('0');
 
 client.on("ready", () => {
     // This event will run if the bot starts, and logs in, successfully.
-    console.log(`Brawnty booted up, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
+    console.log(`Brawntus booted up, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
     // Example of changing the bot's playing game to something useful. `client.user` is what the
     // docs refer to as the "ClientUser".
-    client.user.setActivity(`with your mom's ${client.guilds.size} servers`);
+    client.user.setActivity(`with your dad's ${client.guilds.size} servers`);
     client.user.setUsername("Brawntus");
 });
 
+//client.on("message", function(message) {
+	//Startup message.
+	//guildObj.defaultChannel.send("What's up, bitches.");
+//});
+
 // Auto-apply the role of "tester" to newcomers (FOR BOT-HOME SERVER)
-client.on('guildMemberAdd', (guildMember) => {
+/**client.on('guildMemberAdd', (guildMember) => {
    guildMember.addRole(guildMember.guild.roles.find(role => role.name === "tester"));
-});
+});*/
 
 client.on("guildCreate", guild => {
   // This event triggers when the bot joins a guild.
@@ -42,7 +47,7 @@ client.on('message', message => {
     switch(message.content.toUpperCase()) {
         case '?RESET':
             // Check permissions
-			      if(!message.member.roles.some(r=>["Admin", "Mod"].includes(r.name)) )
+			      if(!message.member.roles.some(r=>["Admin", "Mod", "robot master", `<@287363896820498432>`].includes(r.name)) )
 			      return message.reply("Sorry, you don't have permissions to use this!");
             // Refresh bot if user requesting has required privileges
             resetBot(message.channel);
@@ -54,7 +59,7 @@ client.on('message', message => {
     switch(message.content.toUpperCase()) {
         case '?KILL':
             // Check permissions
-			      if(!message.member.roles.some(r=>["Admin", "Mod"].includes(r.name)) )
+			      if(!message.member.roles.some(r=>["Admin", "Mod", "robot master", `<@287363896820498432>`].includes(r.name)) )
 			      return message.reply("Sorry, you don't have permissions to use this!");
             // Kill bot if user requesting has required privileges
             killBot(message.channel);
@@ -77,6 +82,12 @@ function killBot(channel) {
     channel.send('Goodbye.')
     .then(msg => client.destroy());
 }
+
+client.on('guildMemberAdd', member => {
+  member.send(
+    `Welcome on the server! Please be aware that we won't tolerate troll, spam or harassment. Have fun 😀`
+  )
+})
 
 client.on("message", async message => {
   // This event will run on every single message received, from any channel or DM.
@@ -119,7 +130,7 @@ client.on("message", async message => {
     // This command must be limited to mods and admins. In this example we just hardcode the role names.
     // Please read on Array.some() to understand this bit: 
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
-    if(!message.member.roles.some(r=>["Admin", "Mod"].includes(r.name)) )
+    if(!message.member.roles.some(r=>["Admin", "Mod", "robot master", `<@287363896820498432>`].includes(r.name)) )
       return message.reply("Sorry, you don't have permissions to use this!");
     
     // Let's first check if we have a member and if we can kick them!
@@ -146,7 +157,7 @@ client.on("message", async message => {
   if(command === "ban") {
     // Most of this command is identical to kick, except that here we'll only let admins do it.
     // In the real world mods could ban too, but this is just an example, right? ;)
-    if(!message.member.roles.some(r=>["Admin"].includes(r.name)) )
+    if(!message.member.roles.some(r=>["Admin", "robot master", `<@287363896820498432>`].includes(r.name)) )
       return message.reply("Sorry, you don't have permissions to use this!");
     
     let member = message.mentions.members.first();
@@ -166,7 +177,7 @@ client.on("message", async message => {
   if(command === "purge") {
     // This command removes all messages from all users in the channel, up to 100.
     // Only an Admin or Mod should be able to do this.
-    if(!message.member.roles.some(r=>["Admin", "Mod"].includes(r.name)) )
+    if(!message.member.roles.some(r=>["Admin", "Mod", "robot master", `<@287363896820498432>`].includes(r.name)) )
       return message.reply("Sorry, you don't have permissions to use this!");
     // get the delete count, as an actual number.
     const deleteCount = parseInt(args[0], 10);
@@ -181,22 +192,32 @@ client.on("message", async message => {
       .catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
   }
   
+  
   if (command === "funny") {
-    	// Post funny images
-	number = 37;
-    	imageNumber = Math.floor (Math.random() * number) + 1;
-    	message.channel.send ({files: ["./images/" + imageNumber + ".png"]});
+    // Post funny images
+	number = 44;
+    imageNumber = Math.floor (Math.random() * number) + 1;
+    message.channel.send ({files: ["./images/" + imageNumber + ".png"]});
   }
 	
   if (command === "hug") {
 		let member = message.mentions.members.first();
 		   message.channel.send(`${client.user} gave ${member.user} a hug!`, {
-            file: "https://cdn.discordapp.com/attachments/555879664724213777/555913373619847172/tenor_5.gif"
+            file: "https://media.giphy.com/media/XpgOZHuDfIkoM/giphy.gif"
 			});
 	}
+
+    if (command === "silence") {
+        // silence bottom
+        //let bottom = user.id(120390570370793472);
+        message.channel.send(`<@120390570370793472>`, {
+            file: "https://cdn.discordapp.com/attachments/309465390180859907/575047729055662082/image0.jpg"
+        });
+    }
+
   if (command === "+help") {
 	// let member = message.mentions.members.first();
-		message.reply(`**Current Commands:**\n\t++help - list commands.\n\t+ban - ban a user from the server (@ required), can give a reason or leave blank. **[ADMIN ONLY]**\n\t+kick - kick a user from the server (@ required), can give a reason or leave blank. **[ADMIN/MOD ONLY]**\n\t+purge - purge a certain amount of messages from the current channel (greater than 2, but less than 100). **[ADMIN/MOD ONLY]**\n\t+hug *@somebody* - have ${client.user} hug somebody.\n\t+say - have the bot say something.\n\t+funny - have ${client.user} post a funny image.\n\t+ping - get your current ping and ${client.user} 's current ping.`)
+		message.reply(`\n**Here are the current commands:**\n\t++help - list commands.\n\t+ban - ban a user from the server (@ required), can give a reason or leave blank. **[robot master ONLY]**\n\t+kick - kick a user from the server (@ required), can give a reason or leave blank. **[robot master ONLY]**\n\t+purge - purge a certain amount of messages from the current channel (greater than 2, but less than 100). **[robot master ONLY]**\n\t+hug *@somebody* - have ${client.user} hug somebody **NOW FIXED.**\n\t+say - have the bot say something.\n\t+funny - have ${client.user} post a funny image.\n\t+ping - get your current ping and ${client.user} 's current ping.\n\t+silence - silence your local bottom.`)
   }
 
 });
